@@ -11,9 +11,12 @@
   </head>
   <body>
 
-    <style>
+    <style> 
       body, html {
-	  font-family: 'Open Sans', sans-serif;
+	  margin: 0;
+	  padding: 0;
+	  font-size: 1rem;
+    	  font-family: 'Open Sans', sans-serif;
 	  font-family: 'Zen Kurenaido', sans-serif;
 	  color: #e2e2e2;
 	  background-color: black;
@@ -23,13 +26,43 @@
 	  flex-direction: column;
 	  width: 100%;
       }
+      #header  {
+	  background-color: rgb(22, 27, 34);
+	  margin: 0;
+	  padding: 1rem;
+      }
       .article {
+	  background-color: rgb(22, 27, 34);
+	  margin: 1.2rem 0.6rem;
 	  padding: 1.5rem;
-	  border: 1px solid #e2e2e2;
+	  border: 1px solid #e2e2e299;
+	  border-radius: 0.8rem;
+      }
+      button {
+	  padding: 0.5rem 0.5rem;
+	  color: #e2e2e2e2;
+	  background-color: rgb(22, 27, 34);
+	  width: 10rem;
+	  height: 2.5rem;
+	  white-space: nowrap;
+	  overflow: hidden;
+	  text-overflow: ellipsis;
+	  border: 1px solid #e2e2e299;
+	  border-radius: 0.8rem;
+      }
+      button:hover {
+	  background-color: #e20000;
+	  //background-color: #e2e2e2e2;
+	  //color: rgb(22, 27, 34);
+      }
+      h4 {
+	  margin-left: 1rem;
       }
     </style>
-    
-    <h1>Information/Offensive Security | News Feed</h1>
+
+    <div id="header">
+      <h2>Information/Offensive Security News Feed</h2>
+    </div>
     <div id="content">
     </div>
 
@@ -51,7 +84,7 @@
 		  window.content.forEach((link) => {
 		      if (link.includes(' http')) {
 			  let splat_link = link.split(' http')
-			  container.innerHTML += `<div class="article"><h3>${splat_link[0]}</h3><p class="article-content"><a href="http${splat_link[1]}">http${splat_link[1]}</a></p></div>`
+			  container.innerHTML += `<div class="article"><h3>${splat_link[0]}</h3><p class="article-content"><a href="http${splat_link[1]}"><button>http${splat_link[1]}</button></a></p></div>`
 		      } else {
 			  container.innerHTML += `<div class='article'><p class="article-content"><a href="${link}">${link}</a></p></div>`
 		      }
@@ -61,6 +94,6 @@
 	  loadContent()
       })();
       </script>
-    hosted by <a href="https://fenrir.pro">fenrir.pro</a>
+    <h4>hosted by <a href="https://fenrir.pro">fenrir.pro</a></h4>
   </body>
 </html>
