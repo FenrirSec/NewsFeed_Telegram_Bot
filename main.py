@@ -6,6 +6,7 @@ import json
 from telegram.base import TO
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
+FEEDS_FILE = 'feed.json'
 
 def begin(update,context):
     update.message.reply_text("""
@@ -32,27 +33,24 @@ def error_message(update,context):
    
 def link(update,context): 
     context.bot.send_message(chat_id=update.effective_chat.id, text=update.message.text)
-    path = 'C:/Users/Ray/Telegram_Bot_Python/test.json' #Don't forget to change the path 
-    if os.stat(path).st_size == 0:
-        print("Fichier Vide") 
-    if os.path.isfile(path):
-        websites = None
-        with open(path,"r") as file:
-             websites = json.load(file)
-        with open(path,"w+") as file2:
-            websites.append(update.message.text[6:])
-            json.dump(websites,file2)
-    else:
-        websites = []
-        websites.append(update.message.text[6:])
-        file = open(path, 'w+')
-        json.dump(websites,file)
-        file.close()
-    py2output = subprocess.check_output(['git', 'add' , 'test.json'])
+    links = []
+
+    if os.path.isfile(FEEDS_FILE):
+        with open(FEEDS_FILE) as f:
+            try:
+                links = json.load(f)
+            except Exception as e:
+                print(e)
+    links.append(update.message.text[6:])
+    with open(FEEDS_FILE, "w+") as f:
+        json.dump(links, f)
+
+    # Git Update
+    py2output = subprocess.check_output(['git', 'add' , 'feed.json'])
     try:
-        output = subprocess.check_output(['git', 'commit' ,'-m' , 'update'], stderr=subprocess.STDOUT, shell=True, timeout=3, universal_newlines=True);     
+        output = subprocess.check_output(['git', 'commit' ,'-m' , 'update'], stderr=subprocess.STDOUT)
     except Exception as exc:
-        print(exc)                                                                                                 
+        print(exc)
         print("Status : FAIL", exc.returncode, exc.output)
     py2output = subprocess.check_output(['git', 'push' ])                    
 
