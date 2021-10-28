@@ -52,7 +52,7 @@ def link(update,context):
     except Exception as exc:
         print(exc)
         print("Status : FAIL", exc.returncode, exc.output)
-    py2output = subprocess.check_output(['git', 'push' ])                    
+    py2output = subprocess.check_output(['git', 'push'])                    
 
 def main():
     updater = Updater(conf.Token, use_context = True)
