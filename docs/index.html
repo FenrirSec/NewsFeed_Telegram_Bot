@@ -46,7 +46,7 @@
 	  }
 	  function onContentLoaded(response) {
 	      if (this.readyState == 4 && this.status == 200) {
-		  window.content = JSON.parse(this.responseText)
+		  window.content = JSON.parse(this.responseText).reverse()
 		  let container = document.querySelector('#content')
 		  window.content.forEach((link) => {
 		      if (link.includes(' http')) {
