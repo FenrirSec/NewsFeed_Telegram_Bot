@@ -1,0 +1,65 @@
+<html>
+  <head>
+    <meta charset="utf-8"></meta>
+    <title>Information Security - Offsec Feed - Threat Hunting - fenrir.pro
+    </title>
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <link rel="icon" href="favicon.png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&family=Zen+Kurenaido&display=swap" rel="stylesheet"> 
+  </head>
+  <body>
+
+    <style>
+      body {
+	  font-family: 'Open Sans', sans-serif;
+	  font-family: 'Zen Kurenaido', sans-serif;
+	  color: #e2e2e2;
+	  background-color: black;
+      }
+      #content {
+	  display: flex;
+	  flex-direction: column;
+	  width: 100%;
+      }
+      .article {
+	  padding-left: 1rem;
+	  border: 1px solid #e2e2e2;
+      }
+    </style>
+    
+    <h1>Information Security - Offensive Security News Feed</h1>
+    <div id="content">
+    </div>
+
+    <script type="text/javascript">
+      (function () {
+	  function httpGetRequest(url, callback) {
+	      var oReq = new XMLHttpRequest()
+	      oReq.onreadystatechange = callback
+	      oReq.open("get", url, true)
+	      oReq.send()
+	  }
+	  function loadContent() {
+	      httpGetRequest('https://raw.githubusercontent.com/FenrirSec/NewsFeed_Telegram_Bot/main/feed.json', onContentLoaded)
+	  }
+	  function onContentLoaded(response) {
+	      if (this.readyState == 4 && this.status == 200) {
+		  window.content = JSON.parse(this.responseText)
+		  let container = document.querySelector('#content')
+		  window.content.forEach((link) => {
+		      if (link.includes(' http')) {
+			  let splat_link = link.split(' http')
+			  container.innerHTML += `<div class="article"><h3>${splat_link[0]}</h3><p class="article-content"><a href="http${splat_link[1]}">http${splat_link[1]}</a></p></div>`
+		      } else {
+			  container.innerHTML += `<div class='article'><p class="article-content"><a href="${link}">${link}</a></p></div>`
+		      }
+		  })
+	      }
+	  }
+	  loadContent()
+      })();
+    </script>
+  </body>
+</html>
