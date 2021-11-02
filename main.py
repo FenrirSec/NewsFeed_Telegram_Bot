@@ -41,7 +41,8 @@ def link(update,context):
                 links = json.load(f)
             except Exception as e:
                 print(e)
-    links.append(update.message.text[6:])
+    if update.message.text[6:] not in links:
+        links.append(update.message.text[6:])
     with open(FEEDS_FILE, "w+") as f:
         json.dump(links, f)
 
@@ -52,7 +53,7 @@ def link(update,context):
     except Exception as exc:
         print(exc)
         print("Status : FAIL", exc.returncode, exc.output)
-    py2output = subprocess.check_output(['git', 'push'])                    
+    py2output = subprocess.check_output(['/home/fenrir/NewsFeed_Telegram_Bot/git.sh', 'push'])                    
 
 def main():
     updater = Updater(conf.Token, use_context = True)
