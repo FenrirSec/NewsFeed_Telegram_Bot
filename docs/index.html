@@ -1,30 +1,37 @@
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8"></meta>
     <title>Information Security - Offsec Feed - Threat Hunting - fenrir.pro
     </title>
-    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
-    <link rel="icon" href="favicon.png" type="image/x-icon">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&family=Zen+Kurenaido&display=swap" rel="stylesheet"> 
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon"/>
+    <link rel="icon" href="favicon.png" type="image/x-icon"/>
+	<link href="solarized.css" rel="stylesheet"/>
   </head>
   <body>
 
     <style> 
+
+	@font-face {
+		font-family: "unifont";
+		font-style: "normal";
+		font-weight: 400;
+		src: url("https://stgiga.github.io/UnifontEX/UnifontExMono.woff") format("woff");
+	}
       body, html {
 	  margin: 0;
 	  padding: 0;
 	  font-size: 1rem;
-    	  font-family: 'Open Sans', sans-serif;
-	  font-family: 'Zen Kurenaido', sans-serif;
+	  font-family: 'unifont';
 	  color: #e2e2e2;
 	  background-color: black;
       }
       #content {
 	  display: flex;
-	  flex-direction: column;
+	  flex-direction: row;
+	  flex-wrap: wrap;
 	  width: 100%;
+	  justify-content: space-evenly;
       }
       #header  {
 	  background-color: rgb(22, 27, 34);
@@ -37,6 +44,7 @@
 	  padding: 1.5rem;
 	  border: 1px solid #e2e2e299;
 	  border-radius: 0.8rem;
+	  width: 600px;
       }
       button {
 	  padding: 0.5rem 0.5rem;
@@ -52,12 +60,19 @@
       }
       button:hover {
 	  background-color: #e20000;
-	  //background-color: #e2e2e2e2;
-	  //color: rgb(22, 27, 34);
+	  /* background-color: #e2e2e2e2; */
+	  /* color: rgb(22, 27, 34); */
       }
       h4 {
 	  margin-left: 1rem;
       }
+	  .category {
+		border-bottom: 1px solid white;
+		border-top: 1px solid white;
+		margin-right: 1rem;
+		padding: 0.2rem;
+		font-style: none !important;
+	  }
     </style>
 
     <div id="header">
@@ -75,19 +90,41 @@
 	      oReq.send()
 	  }
 	  function loadContent() {
-	      httpGetRequest('https://raw.githubusercontent.com/FenrirSec/NewsFeed_Telegram_Bot/main/feed.json', onContentLoaded)
+	      httpGetRequest('https://raw.githubusercontent.com/FenrirSec/NewsFeed_Telegram_Bot/main/feed.json?rand='+Math.random(), onContentLoaded)
 	  }
+
+	  function extract_categories(link) {
+		let categories = link.match(/\[[A-z]+\]/g)
+		let cleanlink = link
+		if (categories) {
+			for (category of categories) {
+				cleanlink = cleanlink.replace(category, "")
+			}
+			return [ categories, cleanlink.trim() ]
+		}
+		return [ [], cleanlink.trim() ]
+	  }
+
 	  function onContentLoaded(response) {
 	      if (this.readyState == 4 && this.status == 200) {
 		  window.content = JSON.parse(this.responseText).reverse()
 		  let container = document.querySelector('#content')
 		  window.content.forEach((link) => {
-		      if (link.includes(' http')) {
-			  let splat_link = link.split(' http')
-			  container.innerHTML += `<div class="article"><h3>${splat_link[0]}</h3><p class="article-content"><a href="http${splat_link[1]}"><button>http${splat_link[1]}</button></a></p></div>`
+			  let [ categories, cleanlink ] = extract_categories(link)
+			  console.log(categories)
+			  let innerHTML = ""
+		      if (cleanlink.includes(' http')) {
+			  let splat_link = cleanlink.split(' http')
+			  innerHTML += `<div class="article"><h3>${splat_link[0]}</h3><p class="article-content"><a href="http${splat_link[1]}"><button>http${splat_link[1]}</button></a></p>`
 		      } else {
-			  container.innerHTML += `<div class='article'><p class="article-content"><a href="${link}">${link}</a></p></div>`
+			  innerHTML += `<div class='article'><p class="article-content"><a href="${cleanlink}">${cleanlink}</a></p>`
 		      }
+			  for (category of categories) {
+				category = category.replace(/\[|\]/g, "")
+				innerHTML += `<i class="category cat-${category.toLowerCase()}">${category}</i>`
+			  }
+			  innerHTML += "</div>"
+			  container.innerHTML += innerHTML
 		  })
 	      }
 	  }
