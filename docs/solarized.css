@@ -33,3 +33,15 @@ button:hover {
 .cat-tweet {
     color: #0087ff;
 }
+
+.cat-github {
+    color: #aed6f1;
+}
+
+.cat-vulnerability {
+    color: #F08080;
+}
+
+.cat-attack {
+    color: #2ecc71;
+}
