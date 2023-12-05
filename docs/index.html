@@ -97,7 +97,8 @@
 	      oReq.send()
 	  }
 	  function loadContent() {
-	      httpGetRequest('https://cdn.jsdelivr.net/gh/FenrirSec/NewsFeed_Telegram_Bot@main/feed.json?rand='+Math.random(), onContentLoaded)
+	      const URL= `https://raw.githubusercontent.com/FenrirSec/NewsFeed_Telegram_Bot/main/feed.json?rand=${Math.random()}`
+	      httpGetRequest(URL, onContentLoaded)
 	  }
 
 	  function extract_categories(link) {
