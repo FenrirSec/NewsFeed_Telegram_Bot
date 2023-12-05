@@ -88,6 +88,9 @@
       (function () {
 	  function httpGetRequest(url, callback) {
 	      var oReq = new XMLHttpRequest()
+	      oReq.setRequestHeader("Cache-Control", "no-cache, no-store, max-age=0");
+	      oReq.setRequestHeader("Expires", "Tue, 01 Jan 1980 1:00:00 GMT");
+	      oReq.setRequestHeader("Pragma", "no-cache");
 	      oReq.onreadystatechange = callback
 	      oReq.open("get", url, true)
 	      oReq.send()
