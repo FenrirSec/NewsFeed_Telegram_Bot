@@ -5,6 +5,7 @@
     <title>Information Security - Offsec Feed - Threat Hunting - fenrir.pro
     </title>
     <link rel="shortcut icon" href="favicon.png" type="image/x-icon"/>
+<!--    <script type="application/json" src='https://cdn.jsdelivr.net/gh/FenrirSec/NewsFeed_Telegram_Bot@main/feed.json?callback=onCDNLoaded'></script> -->
     <link rel="icon" href="favicon.png" type="image/x-icon"/>
 	<link href="solarized.css" rel="stylesheet"/>
   </head>
@@ -90,13 +91,13 @@
 	      var oReq = new XMLHttpRequest()
 	      oReq.onreadystatechange = callback
 	      oReq.open("get", url, true)
-	      oReq.setRequestHeader("Cache-Control", "no-cache, no-store, max-age=0");
-	      oReq.setRequestHeader("Expires", "Tue, 01 Jan 1980 1:00:00 GMT");
-	      oReq.setRequestHeader("Pragma", "no-cache");
+//	      oReq.setRequestHeader("Cache-Control", "no-cache, no-store, max-age=0");
+//	      oReq.setRequestHeader("Expires", "Tue, 01 Jan 1980 1:00:00 GMT");
+//	      oReq.setRequestHeader("Pragma", "no-cache");
 	      oReq.send()
 	  }
 	  function loadContent() {
-	      httpGetRequest('https://raw.githubusercontent.com/FenrirSec/NewsFeed_Telegram_Bot/main/feed.json?rand='+Math.random(), onContentLoaded)
+	      httpGetRequest('https://cdn.jsdelivr.net/gh/FenrirSec/NewsFeed_Telegram_Bot@main/feed.json?rand='+Math.random(), onContentLoaded)
 	  }
 
 	  function extract_categories(link) {
@@ -111,6 +112,10 @@
 		return [ [], cleanlink.trim() ]
 	  }
 
+	  function onCDNLoaded(response) {
+	      console.log("onCDNLoaded", response)
+	  }
+	  
 	  function onContentLoaded(response) {
 	      if (this.readyState == 4 && this.status == 200) {
 		  window.content = JSON.parse(this.responseText).reverse()
