@@ -1,21 +1,33 @@
-# NewsFeed_Telegram_Bot
+# NewsFeed Telegram Bot 🤖
 
-This repository contains a Bot Telegram written in Python
+Welcome to the NewsFeed Telegram Bot repository! This bot, written in Python, lets you manage and share links via Telegram. 
 
-The bot works as follows :
-you will insert a link and after that the bot will upload a json file container your link on repo Github
+## How Does It Work? 📋
 
+In your Telegram channel, you have three commands to interact with the bot:
 
-## How it works ?
+- `/begin`: The bot sends you a welcome message.
+- `/help`: The bot lists all available commands.
+- `/link`: Insert your link, and the bot will save it into a JSON file on your GitHub repository.
 
-Into your channel write you have 3 commands :
-- /begin the bot sends you a message of welcome 
-- /help the bot sends all the commands
-- /link you need to insert your link and the he will be input into a json file
+## Setup Instructions 🛠️
 
-## Don't forget to
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/fenrirsec/NewsFeed_Telegram_Bot.git
+    ```
 
-Don't forget to change the path of your file and the token if you need to use this bot on another Telegramm channel. 
+2. Update the path of your JSON file and the Telegram bot token in the script.
 
+3. Run the bot:
+    ```bash
+    python bot.py
+    ```
 
+## Don't Forget 🚨
 
+Make sure to update the file path and token if you plan to use this bot in another Telegram channel.
+
+Happy linking! 🚀
+
+---
